@@ -4,6 +4,7 @@ import boto3
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm
 from django.contrib.auth import login
+from .models import Profile, Recipe
 
 S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
 BUCKET = 'recipemaster-capstone-0119'
@@ -37,16 +38,18 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 # # Recipe Index
-# def recipe_index(request):
-#     return
+def recipe_index(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'recipes/index.html', { 'recipes': recipes })
 
 # # Search Results
 # def search(request):
 #     return
 
 # # Recipe Detail
-# def recipe_detail(request):
-#     return
+def recipe_detail(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    return render(request, 'recipes/detail.html', { 'recipe': recipe })
 
 # # New Recipe
 # def recipe_new(request):

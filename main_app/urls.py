@@ -6,9 +6,9 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/profile/', views.profile, name='profile'),
-#     path('recipes/', views.recipe_index, name='index'),
+    path('recipes/', views.recipe_index, name='index'),
+    path('recipes/<int:recipe_id>/', views.recipe_detail, name='detail'),
 #     path('recipes/search/', views.search, name='search'),
-#     path('recipes/<int:rec_id>/', views.recipe_detail, name='detail'),
 
 # Admin purposes
     # path('recipes/<int:rec_id>/edit/', views.recipe_edit, name='recipe_edit'),
