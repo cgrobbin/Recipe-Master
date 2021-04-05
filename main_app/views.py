@@ -14,7 +14,7 @@ def about(request):
     return render(request, 'about.html')
 
 # # Profile/Recipe Detail
-# # To add to correct folder, add folder name to url, ****TALK TO TA OR INSTRUCTOR ABOUT CONFIGURATION****
+# # To add to correct folder, add folder name to url s3/bucket/folder/key
 # def profile(request):
 #     return
 
