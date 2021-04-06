@@ -9,6 +9,25 @@ from django.contrib.auth.decorators import login_required
 
 S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
 BUCKET = 'recipemaster-capstone-0119'
+p_folder = 'profiles/'
+r_folder = 'recipes/'
+
+# Update Profile Photo
+@login_required
+def update_photo(request):
+    profile = Profile.objects.get(user=request.user)
+    photo_file = request.FILES.get('profile-photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = p_folder + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            profile.url = url
+            profile.save()
+        except:
+            print('An error occurred during upload')
+    return redirect('profile')
 
 # Home
 def home(request):
@@ -25,11 +44,8 @@ def profile(request):
     return render(request, 'profile.html', { 'profile': profile })
 
 # Update Profile
+@login_required
 def update_profile(request):
-    return redirect('profile')
-
-# Update Profile Photo
-def update_photo(request):
     return redirect('profile')
 
 # Signup

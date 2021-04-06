@@ -9,10 +9,10 @@
             {% if profile.user.first_name %}
                 <h5>{{ profile.user.first_name }}</h5>
             {% endif %}
-            <img src="{{ profile.url }}" alt="profile-pic">
+            <img class="profile-pic" src="{{ profile.url }}" alt="profile-pic">
             <form action="{% url 'update_photo' %}" enctype="multipart/form-data" method="POST">
                 {% csrf_token %}
-                <input type="file" name="photo-file">
+                <input type="file" name="profile-photo-file">
                 <br><br>
                 <input type="submit" class="btn" value="Update Photo">
             </form>
