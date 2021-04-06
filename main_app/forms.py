@@ -12,5 +12,5 @@ class SignupForm(UserCreationForm):
 
 class RecipeForm(forms.ModelForm):
     class Meta:
-        model=Recipe
-        fields=['title', 'prep_time', 'cook_time', 'servings', 'ingredients', 'instructions', 'url', 'tags']
+        model = Recipe
+        fields = ['title', 'prep_time', 'cook_time', 'servings', 'ingredients', 'instructions', 'url', 'tags']

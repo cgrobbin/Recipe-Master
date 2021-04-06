@@ -60,7 +60,7 @@ def recipe_new(request):
         new_recipe.save()
         return redirect('index')
     else:
-        return render(request, 'recipes/new.html', { 'recipe_form': recipe_form })
+        return render(request, 'home.html', { 'recipe_form': recipe_form })
 
 # # New Comment
 # def comment_new(request):
