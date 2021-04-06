@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import uuid
 import boto3
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm, RecipeForm
+from .forms import SignupForm, RecipeForm, UserUpdateForm
 from django.contrib.auth import login
 from .models import Profile, Recipe
 from django.contrib.auth.decorators import login_required
@@ -21,8 +21,12 @@ def about(request):
 # Profile/Recipe Detail
 @login_required
 def profile(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.get(user=request.user) 
     return render(request, 'profile.html', { 'profile': profile })
+
+# Update Profile
+def update_profile(request):
+    return redirect('profile')
 
 # Update Profile Photo
 def update_photo(request):

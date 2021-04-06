@@ -14,3 +14,8 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ['title', 'prep_time', 'cook_time', 'servings', 'ingredients', 'instructions', 'url', 'tags']
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']

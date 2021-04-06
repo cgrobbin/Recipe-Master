@@ -17,9 +17,34 @@
                 <input type="submit" class="btn" value="Update Photo">
             </form>
             <p>Date Joined: {{ profile.user.date_joined|date:"M d Y" }}</p>
+            <p>Email: {{ profile.user.email }}</p>
+            <button data-target="modal2" class="btn modal-trigger">Edit Profile</button>
         </div>
     </div>
 </div>
 
+<div class="modal" id="modal2">
+    <div class="modal-content">
+        <form action="{% url 'update_profile' %}">
+            {% csrf_token %}
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username">
+            <label for="id_email">Email:</label>
+            <input type="text" name="email" maxlength="200" id="id_email">
+            <label for="id_first_name">First Name:</label>
+            <input type="text" name="first_name" maxlength="200" id="id_first_name">
+            <label for="id_last_name">Last Name:</label>
+            <input type="text" name="last_name" maxlength="200" id="id_last_name">
+            <input type="submit" class="btn" value="Update Profile">
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let elems = document.querySelectorAll('.modal');
+        let instances = M.Modal.init(elems, {});
+    });
+</script>
 
 {% endblock  %}
