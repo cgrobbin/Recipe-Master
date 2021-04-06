@@ -3,6 +3,7 @@ import uuid
 import boto3
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, RecipeForm, UserUpdateForm
+from django.contrib.auth.models import User
 from django.contrib.auth import login
 from .models import Profile, Recipe
 from django.contrib.auth.decorators import login_required
@@ -46,7 +47,12 @@ def profile(request):
 # Update Profile
 @login_required
 def update_profile(request):
-    return redirect('profile')
+    user_form = UserUpdateForm(request.POST or None, instance = request.user)
+    if request.POST and user_form.is_valid():
+        user_form.save()
+        return redirect('profile')
+    else:
+        return render(request, 'profile.html')
 
 # Signup
 def signup(request):

@@ -25,16 +25,16 @@
 
 <div class="modal" id="modal2">
     <div class="modal-content">
-        <form action="{% url 'update_profile' %}">
+        <form action="{% url 'update_profile' %}" method="POST">
             {% csrf_token %}
             <label for="id_username">Username:</label>
-            <input type="text" name="username" id="id_username">
+            <input type="text" name="username" id="id_username" value="{{ profile.user.username }}">
             <label for="id_email">Email:</label>
-            <input type="text" name="email" maxlength="200" id="id_email">
+            <input type="text" name="email" maxlength="200" id="id_email" value="{{ profile.user.email }}">
             <label for="id_first_name">First Name:</label>
-            <input type="text" name="first_name" maxlength="200" id="id_first_name">
+            <input type="text" name="first_name" maxlength="200" id="id_first_name" value="{{ profile.user.first_name }}">
             <label for="id_last_name">Last Name:</label>
-            <input type="text" name="last_name" maxlength="200" id="id_last_name">
+            <input type="text" name="last_name" maxlength="200" id="id_last_name" value="{{ profile.user.last_name }}">
             <input type="submit" class="btn" value="Update Profile">
         </form>
     </div>
