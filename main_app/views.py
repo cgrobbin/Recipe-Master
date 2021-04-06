@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import uuid
 import boto3
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm
+from .forms import SignupForm, RecipeForm
 from django.contrib.auth import login
 from .models import Profile, Recipe
 
@@ -52,8 +52,15 @@ def recipe_detail(request, recipe_id):
     return render(request, 'recipes/detail.html', { 'recipe': recipe })
 
 # # New Recipe
-# def recipe_new(request):
-#     return
+def recipe_new(request):
+    recipe_form = RecipeForm(request.POST or None)
+    if request.POST and recipe_form.is_valid():
+        new_recipe = recipe_form.save(commit=False)
+        new_recipe.author = request.user
+        new_recipe.save()
+        return redirect('index')
+    else:
+        return render(request, 'recipes/new.html', { 'recipe_form': recipe_form })
 
 # # New Comment
 # def comment_new(request):

@@ -20,6 +20,25 @@
                     <li><a href="/about">About</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'index' %}">All Recipes</a></li>
+                        {% comment %} {% include 'recipes/new.html' %} {% endcomment %}
+                        {% comment %} <li><a href="#modal1" class="modal-trigger">New Recipe</a></li>
+                            <div class="modal" id="modal1">
+                                <div class="modal-content">
+                                    <h4>Header</h4>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur totam quia recusandae cupiditate debitis dolor modi dignissimos ullam voluptas nostrum officiis fugiat porro reiciendis impedit molestiae, qui culpa, facilis non!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#!" class="modal-close"></a>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', functio() {
+                                    let elems = document.querySelectorAll('.modal');
+                                    let instances = M.Modal.init(elems, options);
+                                });
+                            </script> {% endcomment %}
+
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'login' %}">Login</a></li>
