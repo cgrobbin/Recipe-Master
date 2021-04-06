@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, RecipeForm
 from django.contrib.auth import login
 from .models import Profile, Recipe
+from django.contrib.auth.decorators import login_required
 
 S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
 BUCKET = 'recipemaster-capstone-0119'
@@ -17,10 +18,15 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-# # Profile/Recipe Detail
-# # To add to correct folder, add folder name to url s3/bucket/folder/key
+# Profile/Recipe Detail
+@login_required
 def profile(request):
-    return render(request, 'profile.html')
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'profile.html', { 'profile': profile })
+
+# Update Profile Photo
+def update_photo(request):
+    return redirect('profile')
 
 # Signup
 def signup(request):
@@ -29,6 +35,8 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
+            profile = Profile(user=user, url='https://i.imgur.com/CMqTyEZs.jpg')
+            profile.save()
             login(request, user)
             return redirect('profile')
         else:
@@ -37,7 +45,7 @@ def signup(request):
     context = { 'form': form, 'error_message': error_message }
     return render(request, 'registration/signup.html', context)
 
-# # Recipe Index
+# Recipe Index
 def recipe_index(request):
     recipes = Recipe.objects.all()
     return render(request, 'recipes/index.html', { 'recipes': recipes })
@@ -52,6 +60,7 @@ def recipe_detail(request, recipe_id):
     return render(request, 'recipes/detail.html', { 'recipe': recipe })
 
 # # New Recipe
+@login_required
 def recipe_new(request):
     recipe_form = RecipeForm(request.POST or None)
     if request.POST and recipe_form.is_valid():

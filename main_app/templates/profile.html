@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Profile Page</h1>
+<h3>{{ profile.user.username }}'s Profile</h3>
+
+<div class="row">
+    <div class="card col m4">
+        <div class="card-content">
+            {% if profile.user.first_name %}
+                <h5>{{ profile.user.first_name }}</h5>
+            {% endif %}
+            <img src="{{ profile.url }}" alt="profile-pic">
+            <form action="{% url 'update_photo' %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="file" name="photo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Update Photo">
+            </form>
+            <p>Date Joined: {{ profile.user.date_joined|date:"M d Y" }}</p>
+        </div>
+    </div>
+</div>
+
 
 {% endblock  %}
