@@ -33,4 +33,26 @@
     </div>
 </div>
 
+<hr>
+
+<h5>Comments</h5>
+
+<section>
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="card">
+                <div class="row">
+                    <div class="comment-pic col m3">
+                        <img width=85 src="{{ comment.user.url }}" alt="profile-pic">
+                    </div>
+                    <div class="col m9">
+                        <h6>{{ comment.user.user.username }}</h6>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
 {% endblock  %}
