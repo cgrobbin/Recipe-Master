@@ -16,8 +16,6 @@ urlpatterns = [
     path('recipes/<int:recipe_id>/edit/', views.recipe_edit, name='recipe_edit'),
     path('recipes/<int:recipe_id>/delete/', views.recipe_delete, name='recipe_delete'),
     path('recipes/<int:recipe_id>/comment/new/', views.comment_new, name='comment_new'),
-
-
-#     path('recipes/<int:rec_id>/comment/<int:com_id>/edit/', views.comment_edit, name='comment_edit'),
-#     path('recipes/<int:rec_id>/comment/<int:com_id>/delete/', views.comment_delete, name='comment_delete'),
+    path('recipes/<int:recipe_id>/comment/<int:comment_id>/edit/', views.comment_edit, name='comment_edit'),
+    path('recipes/<int:recipe_id>/comment/<int:comment_id>/delete/', views.comment_delete, name='comment_delete'),
 ]

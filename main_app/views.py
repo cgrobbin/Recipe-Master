@@ -170,10 +170,17 @@ def comment_new(request, recipe_id):
     else:
         return redirect('detail', recipe_id=recipe_id)
 
-# # Edit Comment
-# def comment_edit(request):
-#     return
+# Edit Comment
+def comment_edit(request, comment_id, recipe_id):
+    comment = Comment.objects.get(id=comment_id)
+    comment_form = CommentForm(request.POST or None, instance=comment)
+    if request.POST and comment_form.is_valid():
+        comment_form.save()
+        return redirect('detail', recipe_id=recipe_id)
+    else:
+        return redirect('detail', recipe_id=recipe_id)
 
-# # Delete Comment
-# def comment_delete(request):
-#     return
+# Delete Comment
+def comment_delete(request, comment_id, recipe_id):
+    Comment.objects.get(id=comment_id).delete()
+    return redirect('detail', recipe_id=recipe_id)
