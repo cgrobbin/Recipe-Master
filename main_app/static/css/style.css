@@ -2,7 +2,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background-image: url('../images/ingredients.jpg');
+    background-image: url('../images/background.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -26,7 +26,10 @@ body {
 }
 
 .container {
-  background-color: lightgray;
+  background-color: #eceff1;
   padding: 10px;
 }
 
+.recipe-pic {
+  width: 100%;
+}
