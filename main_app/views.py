@@ -36,6 +36,7 @@ def recipe_new(request):
     recipe_form = RecipeForm(request.POST or None)
     photo_file = request.FILES.get('recipe-photo-file', None)
     img_url = ''
+    print(photo_file)
     if photo_file:
         s3 = boto3.client('s3')
         key = r_folder + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
@@ -46,9 +47,12 @@ def recipe_new(request):
         except:
             print('An error occurred during upload')
     else:
-        img_url = "https://i.imgur.com/CMqTyEZt.jpg"
+        img_url = "https://i.imgur.com/RtCoQclt.jpg"
+
+    print(recipe_form.is_valid())
 
     if request.POST and recipe_form.is_valid():
+        print('hits Post')
         new_recipe = recipe_form.save(commit=False)
         new_recipe.author = request.user
         new_recipe.url = img_url
@@ -111,8 +115,14 @@ def recipe_detail(request, recipe_id):
 # Search Results
 def search(request):
     query = request.GET['search']
-    recipes = Recipe.objects.filter(title__icontains = query)
-    return render(request, 'recipes/search.html', { 'recipes': recipes})
+    recipes = []
+    recipe_titles = Recipe.objects.filter(title__icontains = query)
+    recipe_tags = Recipe.objects.filter(tags__icontains = query)
+    for recipe in recipe_titles:
+        recipes.append(recipe)
+    for recipe in recipe_tags:
+        recipes.append(recipe)
+    return render(request, 'recipes/search.html', { 'recipes': recipes, 'query': query })
 
 # # New Comment
 # def comment_new(request):
