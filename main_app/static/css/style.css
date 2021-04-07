@@ -27,5 +27,9 @@ body {
 
 .container {
   background-color: lightgray;
-  padding: auto;
+  padding: 10px;
+}
+
+.recipe-pic {
+  width: 100%;
 }
