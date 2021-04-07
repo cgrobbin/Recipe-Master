@@ -20,3 +20,7 @@ body {
 .profile-pic {
   width: 100%;
 }
+
+.search {
+  display: inline;
+}
