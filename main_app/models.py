@@ -37,4 +37,4 @@ class Comment(models.Model):
     content = models.TextField(max_length=300)
 
     def __str__(self):
-        return f"Comment for {self.recipe_title}"
+        return f"Comment for Recipe with ID of {self.recipe_id}"

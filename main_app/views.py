@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, RecipeForm, UserUpdateForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
-from .models import Profile, Recipe
+from .models import Profile, Recipe, Comment
 from django.contrib.auth.decorators import login_required
 
 S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
@@ -106,7 +106,12 @@ def recipe_index(request):
 # Recipe Detail
 def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    return render(request, 'recipes/detail.html', { 'recipe': recipe })
+    comments = Comment.objects.filter(recipe_id=recipe_id)
+    context = {
+        'recipe': recipe,
+        'comments': comments
+    }
+    return render(request, 'recipes/detail.html', context)
 
 # Search Results
 def search(request):
