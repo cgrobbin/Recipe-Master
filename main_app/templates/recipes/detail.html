@@ -1,6 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>{{ recipe.title }}</h2>
+<h3>{{ recipe.title }}</h3>
+
+<div class="recipe-detail">
+    <div class="row">
+        <div class="col m6 s12">
+            <img class="recipe-pic" src="{{ recipe.url }}" alt="recipe-pic">
+        </div>
+        <div class="col m6 s12">
+            <p>Author: {{ recipe.author.username }}</p>
+            <p>Prep Time: {{ recipe.prep_time }}</p>
+            <p>Cook Time: {{ recipe.cook_time }}</p>
+            <p>Servings: {{ recipe.servings }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m6 s12">
+            <ul class="ingredient-list">
+                {% for ingredient in recipe.ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col m6 s12">
+            <ol class="instruction-list">
+                {% for instruction in recipe.instructions %}
+                    <li>{{ instruction }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
 
 {% endblock  %}
