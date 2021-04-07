@@ -13,7 +13,7 @@
 <body>
     <header class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper deep purple darken-2">
+            <div class="nav-wrapper indigo darken-4">
                 <ul>
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;RecipeMaster</a></li>
                 </ul>
@@ -33,13 +33,12 @@
             </div>
         </nav>
     </header>
-    {% comment %} <img src="https://i.imgur.com/dRl0xx0h.jpg" alt="background-image" class="background"> {% endcomment %}
     <main class="container">
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer class="page-footer deep purple darken-2">
+    <footer class="page-footer blue-grey darken-1">
         <div class="left">
             <form class="search" action="{% url 'search' %}" method="GET">
                 <input type="search" name="search" class="search" placeholder="Search">
