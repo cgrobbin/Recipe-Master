@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import uuid
 import boto3
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm, RecipeForm, UserUpdateForm
+from .forms import SignupForm, RecipeForm, UserUpdateForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from .models import Profile, Recipe, Comment
@@ -56,6 +56,22 @@ def recipe_new(request):
         return redirect('index')
     else:
         return render(request, 'home.html', { 'recipe_form': recipe_form })
+
+# Update Recipe Photo
+def recipe_photo(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    photo_file = request.FILES.get('recipe-detail-photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = r_folder + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            recipe.url = url
+            recipe.save()
+        except:
+            print('An error occurred during upload')
+    return redirect('detail', recipe_id=recipe_id)
 
 # Home
 def home(request):
@@ -125,9 +141,34 @@ def search(request):
         recipes.append(recipe)
     return render(request, 'recipes/search.html', { 'recipes': recipes, 'query': query })
 
-# # New Comment
-# def comment_new(request):
-#     return
+# Edit Recipe
+def recipe_edit(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    recipe_form = RecipeForm(request.POST or None, instance=recipe)
+    if request.POST and recipe_form.is_valid():
+        recipe_form.save()
+        return redirect('detail', recipe_id=recipe_id)
+    else:
+        return redirect('detail', recipe_id=recipe_id)
+
+# Delete Recipe
+def recipe_delete(request, recipe_id):
+    Recipe.objects.get(id=recipe_id).delete()
+    return redirect('index')
+
+# New Comment
+def comment_new(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    profile = Profile.objects.get(user=request.user)
+    comment_form = CommentForm(request.POST or None)
+    if request.POST and comment_form.is_valid():
+        new_comment = comment_form.save(commit=False)
+        new_comment.recipe = recipe
+        new_comment.user = profile
+        new_comment.save()
+        return redirect('detail', recipe_id=recipe_id)
+    else:
+        return redirect('detail', recipe_id=recipe_id)
 
 # # Edit Comment
 # def comment_edit(request):
@@ -135,12 +176,4 @@ def search(request):
 
 # # Delete Comment
 # def comment_delete(request):
-#     return
-
-# # Edit Recipe
-# def recipe_edit(request):
-#     return
-
-# # Delete Recipe
-# def recipe_delete(request):
 #     return
