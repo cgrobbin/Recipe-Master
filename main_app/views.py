@@ -112,10 +112,7 @@ def recipe_detail(request, recipe_id):
 def search(request):
     query = request.GET['search']
     recipes = Recipe.objects.filter(title__icontains = query)
-    # if (recipes):
     return render(request, 'recipes/search.html', { 'recipes': recipes})
-    # else:
-    #     return render(request, 'recipes/search.html')
 
 # # New Comment
 # def comment_new(request):
