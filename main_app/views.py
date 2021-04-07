@@ -36,7 +36,6 @@ def recipe_new(request):
     recipe_form = RecipeForm(request.POST or None)
     photo_file = request.FILES.get('recipe-photo-file', None)
     img_url = ''
-    print(photo_file)
     if photo_file:
         s3 = boto3.client('s3')
         key = r_folder + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
@@ -49,10 +48,7 @@ def recipe_new(request):
     else:
         img_url = "https://i.imgur.com/RtCoQclt.jpg"
 
-    print(recipe_form.is_valid())
-
     if request.POST and recipe_form.is_valid():
-        print('hits Post')
         new_recipe = recipe_form.save(commit=False)
         new_recipe.author = request.user
         new_recipe.url = img_url

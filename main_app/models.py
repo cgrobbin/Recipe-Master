@@ -31,4 +31,10 @@ class Recipe(models.Model):
     def __str__(self):
         return f"{self.title}"
     
+class Comment(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    content = models.TextField(max_length=300)
 
+    def __str__(self):
+        return f"Comment for {self.recipe_title}"
