@@ -30,6 +30,33 @@ def update_photo(request):
             print('An error occurred during upload')
     return redirect('profile')
 
+# New Recipe
+@login_required
+def recipe_new(request):
+    recipe_form = RecipeForm(request.POST or None)
+    photo_file = request.FILES.get('recipe-photo-file', None)
+    img_url = ''
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = r_folder + uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            img_url = url
+        except:
+            print('An error occurred during upload')
+    else:
+        img_url = "https://i.imgur.com/CMqTyEZt.jpg"
+
+    if request.POST and recipe_form.is_valid():
+        new_recipe = recipe_form.save(commit=False)
+        new_recipe.author = request.user
+        new_recipe.url = img_url
+        new_recipe.save()
+        return redirect('index')
+    else:
+        return render(request, 'home.html', { 'recipe_form': recipe_form })
+
 # Home
 def home(request):
     return render(request, 'home.html')
@@ -76,26 +103,19 @@ def recipe_index(request):
     recipes = Recipe.objects.all()
     return render(request, 'recipes/index.html', { 'recipes': recipes })
 
-# # Search Results
-# def search(request):
-#     return
-
-# # Recipe Detail
+# Recipe Detail
 def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     return render(request, 'recipes/detail.html', { 'recipe': recipe })
 
-# # New Recipe
-@login_required
-def recipe_new(request):
-    recipe_form = RecipeForm(request.POST or None)
-    if request.POST and recipe_form.is_valid():
-        new_recipe = recipe_form.save(commit=False)
-        new_recipe.author = request.user
-        new_recipe.save()
-        return redirect('index')
-    else:
-        return render(request, 'home.html', { 'recipe_form': recipe_form })
+# Search Results
+def search(request):
+    query = request.GET['search']
+    recipes = Recipe.objects.filter(title__icontains = query)
+    # if (recipes):
+    return render(request, 'recipes/search.html', { 'recipes': recipes})
+    # else:
+    #     return render(request, 'recipes/search.html')
 
 # # New Comment
 # def comment_new(request):
