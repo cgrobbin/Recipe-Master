@@ -2,7 +2,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    /* background-image: url('../images/ingredients.jpg'); */
+    background-image: url('../images/ingredients.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -23,4 +23,9 @@ body {
 
 .search {
   display: inline;
+}
+
+.container {
+  background-color: lightgray;
+  padding: auto;
 }
