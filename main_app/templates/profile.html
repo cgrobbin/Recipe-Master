@@ -24,7 +24,7 @@
     <div class="card col m8 s12">
         <h4>My Favorites</h4>
         <div class="row">
-            {% comment %} {% for recipe in recipes %}
+            {% for recipe in recipes %}
                 <div class="card col m6 s12">
                     <div class="card-image">
                         <img src="{{ recipe.url }}" alt="recipe pic">
@@ -39,7 +39,7 @@
                         <a href="{% url 'detail' recipe.id %}">Full Recipe</a>
                     </div>
                 </div>
-            {% endfor %} {% endcomment %}
+            {% endfor %}
         </div>
     </div>
 </div>

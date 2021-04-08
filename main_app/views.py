@@ -58,6 +58,7 @@ def recipe_new(request):
         return render(request, 'home.html', { 'recipe_form': recipe_form })
 
 # Update Recipe Photo
+@login_required
 def recipe_photo(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     photo_file = request.FILES.get('recipe-detail-photo-file', None)
@@ -85,7 +86,8 @@ def about(request):
 @login_required
 def profile(request):
     profile = Profile.objects.get(user=request.user) 
-    return render(request, 'profile.html', { 'profile': profile })
+    recipes = Recipe.objects.filter(users=profile)
+    return render(request, 'profile.html', { 'profile': profile, 'recipes': recipes })
 
 # Update Profile
 @login_required
@@ -123,9 +125,15 @@ def recipe_index(request):
 def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     comments = Comment.objects.filter(recipe_id=recipe_id)
+    favorited = False
+    if request.user:
+        profile = Profile.objects.get(user=request.user)
+        if profile in recipe.users.all():
+            favorited = True
     context = {
         'recipe': recipe,
-        'comments': comments
+        'comments': comments,
+        'favorited': favorited
     }
     return render(request, 'recipes/detail.html', context)
 
@@ -142,6 +150,7 @@ def search(request):
     return render(request, 'recipes/search.html', { 'recipes': recipes, 'query': query })
 
 # Edit Recipe
+@login_required
 def recipe_edit(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     recipe_form = RecipeForm(request.POST or None, instance=recipe)
@@ -152,11 +161,13 @@ def recipe_edit(request, recipe_id):
         return redirect('detail', recipe_id=recipe_id)
 
 # Delete Recipe
+@login_required
 def recipe_delete(request, recipe_id):
     Recipe.objects.get(id=recipe_id).delete()
     return redirect('index')
 
 # New Comment
+@login_required
 def comment_new(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     profile = Profile.objects.get(user=request.user)
@@ -171,6 +182,7 @@ def comment_new(request, recipe_id):
         return redirect('detail', recipe_id=recipe_id)
 
 # Edit Comment
+@login_required
 def comment_edit(request, comment_id, recipe_id):
     comment = Comment.objects.get(id=comment_id)
     comment_form = CommentForm(request.POST or None, instance=comment)
@@ -181,6 +193,29 @@ def comment_edit(request, comment_id, recipe_id):
         return redirect('detail', recipe_id=recipe_id)
 
 # Delete Comment
+@login_required
 def comment_delete(request, comment_id, recipe_id):
     Comment.objects.get(id=comment_id).delete()
     return redirect('detail', recipe_id=recipe_id)
+
+# Add Recipe to Favorites
+@login_required
+def add_favorite(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    profile = Profile.objects.get(user=request.user)
+    if profile in recipe.users.all():
+        return redirect('detail', recipe_id=recipe_id)
+    else:
+        recipe.users.add(profile)
+        return redirect('detail', recipe_id=recipe_id)
+
+# Remove Recipe from Favorites
+@login_required
+def remove_favorite(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    profile = Profile.objects.get(user=request.user)
+    if profile in recipe.users.all():
+        recipe.users.remove(profile)
+        return redirect('detail', recipe_id=recipe_id)
+    else:
+        return redirect('detail', recipe_id=recipe_id)

@@ -23,6 +23,11 @@
                     <button data-target="modal3" class="btn modal-trigger">Edit Recipe</button>
                     <button data-target="modal4" class="btn modal-trigger">Delete Recipe</button>
                 {% endif %}
+                {% if favorited %}
+                    <a href="{% url 'remove_favorite' recipe.id %}" class="btn">-</a>
+                {% else %}
+                    <a href="{% url 'add_favorite' recipe.id %}" class="btn">+</a>
+                {% endif %}
             {% endif %}
             <p>Author: {{ recipe.author.username }}</p>
             <p>Prep Time: {{ recipe.prep_time }}</p>
