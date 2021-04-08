@@ -2,6 +2,10 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    background-image: url('../images/background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
   
   main {
@@ -12,3 +16,20 @@ body {
     padding-top: 0;
     text-align: right;
   }
+
+.profile-pic {
+  width: 100%;
+}
+
+.search {
+  display: inline;
+}
+
+.container {
+  background-color: #eceff1;
+  padding: 10px;
+}
+
+.recipe-pic {
+  width: 100%;
+}

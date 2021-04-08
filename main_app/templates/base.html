@@ -8,16 +8,27 @@
     <title>Recipe Master</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
     <header class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper">
+            <div class="nav-wrapper indigo darken-4">
                 <ul>
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;RecipeMaster</a></li>
                 </ul>
+                
                 <ul class="right">
                     <li><a href="/about">About</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        <li><a href="{% url 'index' %}">All Recipes</a></li>
+                        <li><a href="#modal1" class="modal-trigger">New Recipe</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'signup' %}">Signup</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -27,8 +38,63 @@
         {% endblock %}
     </main>
 
-    <footer class="page-footer">
+    <footer class="page-footer blue-grey darken-1">
+        <div class="left">
+            <form class="search" action="{% url 'search' %}" method="GET">
+                <input type="search" name="search" class="search" placeholder="Search">
+                <input type="submit" class="btn search" value="Search">
+            </form>
+        </div>
         <div class="right">All Rights Reserved, &copy; 2021 Recipe Master &nbsp;</div>
     </footer>
+
+    <div id="modal1" class="modal open">
+        <div class="modal-content">
+            <h3>New Recipe</h3>
+            <form action="/recipes/new/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h5>All Fields Required</h5>
+                <label for="id_title">Title:</label>
+                <input type="text" name="title" maxlength="200" required="" id="id_title">
+
+                <label for="id_prep_time">Prep time:</label>
+                <input type="text" name="prep_time" maxlength="25" required="" id="id_prep_time">
+
+                <label for="id_cook_time">Cook time:</label>
+                <input type="text" name="cook_time" maxlength="25" required="" id="id_cook_time">
+
+                <label for="id_servings">Servings:</label>
+                <input type="number" name="servings" required="" id="id_servings">
+
+                <label for="id_ingredients">Ingredients:</label>
+                <p>Comma separate all ingredients i.e. 2 cups flour, 1 cup sugar, 1Tbsp vanilla...</p>
+                <input type="text" name="ingredients" required="" id="id_ingredients">
+
+                <label for="id_instructions">Instructions:</label>
+                <p>Comma separate all instructions i.e. Preheat oven to 350, Sift flour and sugar, Add eggs one at a time...</p>
+                <input type="text" name="instructions" required="" id="id_instructions">
+
+                <label for="id_tags">Tags:</label>
+                <p>Comma separated i.e. Vegetarian, Gluten Free, Italian</p>
+                <input type="text" name="tags" required="" id="id_tags">
+
+                <label for="id_url">Image:</label>
+                <input type="file" name="recipe-photo-file">
+
+                <input type="submit" class="btn" value="Submit">
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close"></a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let elems = document.querySelectorAll('.modal');
+            let instances = M.Modal.init(elems, {});
+        });
+    </script>
 </body>
 </html>

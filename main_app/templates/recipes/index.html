@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>All Recipes</h1>
+
+<div class="row">
+    {% for recipe in recipes %}
+        <div class="card col m6 s12">
+            <div class="card-image">
+                <img src="{{ recipe.url }}" alt="recipe pic">
+                <span class="card-title black-text">{{ recipe.title }}</span>
+            </div>
+            <div class="card-content">
+                <p>Prep Time: {{ recipe.prep_time }}</p>
+                <p>Cook Time: {{ recipe.cook_time }}</p>
+                <p>Servings: {{ recipe.servings }}</p>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'detail' recipe.id %}">Full Recipe</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock  %}
