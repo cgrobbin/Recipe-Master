@@ -27,6 +27,7 @@ class Recipe(models.Model):
         default="https://i.imgur.com/RtCoQcll.jpg",
         )
     tags = ArrayField(models.CharField(max_length=50))
+    users = models.ManyToManyField(Profile, blank=True)
 
     def __str__(self):
         return f"{self.title}"
