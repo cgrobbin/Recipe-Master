@@ -6,19 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Master</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Akaya+Kanadaka&family=Kaushan+Script&family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css/' %}" type="text/css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
     <header class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper indigo darken-4">
-                <ul>
-                    <li><a href="/" class="left brand-logo">&nbsp;&nbsp;RecipeMaster</a></li>
+            <div class="nav-wrapper blue-grey darken-1">
+                <ul class="left">
+                    <li><a href="/" id="logo" class="brand-logo">&nbsp;&nbsp;RecipeMaster<i class="material-icons">restaurant_menu</i></a></li>
+
                 </ul>
                 
                 <ul class="right">
+                    <li>
+                        <form class="search" action="{% url 'search' %}" method="GET">
+                            <div class="input-field">
+                                <input id="search" type="search" name="search" class="search" placeholder="Search" required>
+                                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </form>
+                    </li>
                     <li><a href="/about">About</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'profile' %}">Profile</a></li>
@@ -39,12 +54,6 @@
     </main>
 
     <footer class="page-footer blue-grey darken-1">
-        <div class="left">
-            <form class="search" action="{% url 'search' %}" method="GET">
-                <input type="search" name="search" class="search" placeholder="Search">
-                <input type="submit" class="btn search" value="Search">
-            </form>
-        </div>
         <div class="right">All Rights Reserved, &copy; 2021 Recipe Master &nbsp;</div>
     </footer>
 
