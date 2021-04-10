@@ -12,7 +12,7 @@
                     <form action="{% url 'recipe_photo' recipe.id %}" enctype="multipart/form-data" method="POST">
                         {% csrf_token %}
                         <input type="file" name="recipe-detail-photo-file">
-                        <input type="submit" class="btn" value="Update Photo">
+                        <button type="submit" class="btn indigo darken-4">Photo<i class="material-icons">file_upload</i></button>
                     </form>
                 {% endif %}
             {% endif %}
@@ -20,13 +20,13 @@
         <div class="col m6 s12">
             {% if user.is_authenticated %}
                 {% if recipe.author == request.user %}
-                    <button data-target="modal3" class="btn modal-trigger">Edit Recipe</button>
-                    <button data-target="modal4" class="btn modal-trigger">Delete Recipe</button>
+                    <button data-target="modal3" class="btn indigo darken-4 modal-trigger"><i class="material-icons">edit</i></button>
+                    <button data-target="modal4" class="btn indigo darken-4 modal-trigger"><i class="material-icons">delete_forever</i></button>
                 {% endif %}
                 {% if favorited %}
-                    <a href="{% url 'remove_favorite' recipe.id %}" class="btn">-</a>
+                    <a href="{% url 'remove_favorite' recipe.id %}" class="btn indigo darken-4"><i class="material-icons">remove</i></a>
                 {% else %}
-                    <a href="{% url 'add_favorite' recipe.id %}" class="btn">+</a>
+                    <a href="{% url 'add_favorite' recipe.id %}" class="btn indigo darken-4"><i class="material-icons">add</i></a>
                 {% endif %}
             {% endif %}
             <p>Author: {{ recipe.author.username }}</p>
@@ -59,16 +59,16 @@
 
     <div class="row">
         <h5 class="left">Comments</h5>
-        <button class="right btn modal-trigger" data-target="modal5">Add Comment</button>
+        <button class="right btn indigo darken-4 modal-trigger" data-target="modal5"><i class="material-icons">add</i></button>
     </div>
 
     <section>
         <div class="comments">
             {% for comment in comments %}
-                <div class="card">
+                <div class="card z-depth-3">
                     <div class="row">
                         <div class="comment-pic col m3">
-                            <img width=85 src="{{ comment.user.url }}" alt="profile-pic">
+                            <img class="profile-pic" src="{{ comment.user.url }}" alt="profile-pic">
                         </div>
                         <div class="col m6">
                             <h6>{{ comment.user.user.username }}</h6>
@@ -76,8 +76,8 @@
                         </div>
                         {% if comment.user.user == request.user %}
                             <div class="col m3">
-                                <button data-target="modal-comment-edit-{{ comment.id }}" class="btn modal-trigger">Edit</button>
-                                <button data-target="modal-comment-delete-{{ comment.id }}" class="btn modal-trigger">Delete</button>
+                                <button data-target="modal-comment-edit-{{ comment.id }}" class="btn indigo darken-4 modal-trigger"><i class="material-icons">edit</i></button>
+                                <button data-target="modal-comment-delete-{{ comment.id }}" class="btn indigo darken-4 modal-trigger"><i class="material-icons">delete_forever</i></button>
 
                                 {% comment %} MODALS {% endcomment %}
                                 <div class="modal" id="modal-comment-edit-{{ comment.id }}">

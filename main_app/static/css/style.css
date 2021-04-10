@@ -1,38 +1,26 @@
+/* GLOBAL STYLING */
+
 html {
   font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 
 body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    background-image: url('../images/background.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-  }
-  
-  main {
-    flex: 1 0 auto;
-  }
-  
-  footer {
-    padding-top: 0;
-    text-align: right;
-  }
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Kaushan Script';
-  color: #1a237e;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-image: url('../images/background.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-.profile-pic {
-  width: 100%;
+main {
+  flex: 1 0 auto;
 }
 
-.search {
-  display: inline;
-  align-items:baseline;
+footer {
+  padding-top: 0;
+  text-align: right;
 }
 
 .container {
@@ -40,39 +28,93 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px;
 }
 
-.recipe-pic {
-  width: 100%;
-}
-
 .brand-logo {
   font-family: 'Kaushan Script';
 }
+  
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Kaushan Script';
+  color: #1a237e;
+  text-shadow: 1px 1px #546e7a;
+}
+
+nav {
+  color: #1a237e;
+}
+img {
+  border: 3px #1a237e;
+  border-style: ridge;
+  align-items: center;
+  width: 100%;
+}
+
+.search {
+  display: inline-block !important;
+} 
+
+#search {
+  align-items: center;
+}
+
+.card {
+  padding: 10px;
+  margin: 8px 2px 4px 0;
+  border-style: inset;
+}
+
+span .card-title {
+  font-weight: bolder;
+}
+
+p {
+  font-family: 'Roboto Slab';
+}
+
+li {
+  font-family: 'Roboto Slab';
+}
+
+/* HOME */
 
 .home-header {
   font-family: 'Kaushan Script';
   color: #1a237e;
 }
 
-.card {
-  padding: 10px;
-  margin: auto;
-}
+/* ABOUT */
 
 .about-img img {
   border-radius: 50%;
 }
 
-.home-page img {
-  border: 3px #1a237e;
-  border-style: ridge;
-}
-
-.about-name {
-  font-size: large;
-  font-weight: bold;
-}
-
-span .card-title {
+.about-page .card-title {
+  font-family: 'Roboto Slab';
   font-weight: bolder;
-  background-color: black;
+}
+
+/* PROFILE */
+
+.profile-pic {
+  width: 100%;
+}
+
+.profile-page button {
+  display: inline !important;
+  padding-bottom: 8px;
+}
+
+.profile-page .card-title {
+  font-size: medium;
+  text-shadow: 2px 2px black;
+}
+
+/* RECIPES & COMMENTS */
+
+.recipe-pic {
+  width: 100%;
+}
+
+.comment-pic img {
+  max-width: 85px;
+  border-radius: 50%;
 }

@@ -20,16 +20,16 @@
         <nav>
             <div class="nav-wrapper blue-grey darken-1">
                 <ul class="left">
-                    <li><a href="/" id="logo" class="brand-logo">&nbsp;&nbsp;RecipeMaster<i class="material-icons">restaurant_menu</i></a></li>
+                    <li><a href="/" id="logo" class="brand-logo">&nbsp;&nbsp;RecipeMaster<i class="material-icons right">restaurant_menu</i></a></li>
 
                 </ul>
                 
                 <ul class="right">
                     <li>
                         <form class="search" action="{% url 'search' %}" method="GET">
-                            <div class="input-field">
+                            <div class="input-field col offset-s3 s3 s3">
                                 <input id="search" type="search" name="search" class="search" placeholder="Search" required>
-                                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                <label class="label-icon left-align" for="search"><i class="material-icons">search</i></label>
                                 <i class="material-icons">close</i>
                             </div>
                         </form>
@@ -48,7 +48,7 @@
             </div>
         </nav>
     </header>
-    <main class="container">
+    <main class="container z-depth-3">
         {% block content %}
         {% endblock %}
     </main>
@@ -90,7 +90,9 @@
                 <label for="id_url">Image:</label>
                 <input type="file" name="recipe-photo-file">
 
-                <input type="submit" class="btn" value="Submit">
+                <button type="submit" class="btn indigo darken-4">Submit
+                    <i class="material-icons">send</i>
+                </button>
                 <input type="hidden" name="next" value="{{ next }}">
             </form>
         </div>
