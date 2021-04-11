@@ -1,0 +1,14 @@
+<div class="modal" id="modal5">
+    <div class="modal-content">
+        <form action="{% url 'comment_new' recipe.id %}" method="POST">
+            {% csrf_token %}
+            <h5>Add a comment below</h5>
+            <label for="id_content">Comment:</label>
+            <input type="text" name="content" required="" id="id_content" placeholder="Scrumptious!">
+            <input type="submit" class="btn indigo darken-4" value="Add">
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close"></a>
+    </div>
+</div>
