@@ -1,1 +1,1 @@
-web: gunicorn recipemastercgr.wsgi
+web: gunicorn recipemaster_project.wsgi
