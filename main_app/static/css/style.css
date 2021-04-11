@@ -74,6 +74,9 @@ li {
   font-family: 'Roboto Slab';
 }
 
+.sidenav-overlay {
+  z-index: -1;
+}
 /* SIGNUP & LOGIN */
 
 .signup ul {
@@ -127,4 +130,14 @@ li {
 .comment-pic img {
   max-width: 85px;
   border-radius: 50%;
+}
+
+@media only screen and (max-width: 789px) {
+  body {
+    background-color: #9fa8da;
+  }
+
+  .brand-logo .material-icons {
+    display: none;
+  }
 }

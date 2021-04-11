@@ -131,7 +131,7 @@ def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     comments = Comment.objects.filter(recipe_id=recipe_id)
     favorited = False
-    if request.user:
+    if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         if profile in recipe.users.all():
             favorited = True
