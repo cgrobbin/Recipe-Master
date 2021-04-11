@@ -16,7 +16,7 @@
                         {% csrf_token %}
                         <input type="file" name="profile-photo-file">
                         <br><br>
-                        <button type="submit" class="btn indigo darken-4">Photo<i class="material-icons">file_upload</i></button>
+                        <button type="submit" class="btn indigo darken-4">Photo</button>
                     </form>
                     <p>Date Joined: {{ profile.user.date_joined|date:"M d Y" }}</p>
                     <p>Email: {{ profile.user.email }}</p>
