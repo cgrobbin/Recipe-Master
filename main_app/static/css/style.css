@@ -74,6 +74,16 @@ li {
   font-family: 'Roboto Slab';
 }
 
+/* SIGNUP & LOGIN */
+
+.signup ul {
+  font-size: 10px;
+}
+
+.signup p {
+  font-size: 10px;
+}
+
 /* HOME */
 
 .home-header {

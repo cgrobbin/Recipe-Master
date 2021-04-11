@@ -21,10 +21,10 @@
             <div class="nav-wrapper blue-grey darken-1">
                 <ul class="left">
                     <li><a href="/" id="logo" class="brand-logo">&nbsp;&nbsp;RecipeMaster<i class="material-icons right">restaurant_menu</i></a></li>
-
                 </ul>
                 
-                <ul class="right">
+                <a href="#" data-target="mobile-menu" class="right sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
                     <li>
                         <form class="search" action="{% url 'search' %}" method="GET">
                             <div class="input-field col offset-s3 s3 s3">
@@ -47,7 +47,48 @@
                 </ul>
             </div>
         </nav>
+
+        <ul class="sidenav" id="mobile-menu">
+            <li>
+                <form class="search" action="{% url 'search' %}" method="GET">
+                    <div class="input-field col offset-s3 s3 s3">
+                        <input id="search" type="search" name="search" class="search" placeholder="Search" required>
+                        <label class="label-icon left-align" for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </li>
+            <li><a href="/about">About</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'index' %}">All Recipes</a></li>
+                <li><a href="#modal1" class="modal-trigger">New Recipe</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'signup' %}">Signup</a></li>
+            {% endif %}
+        </ul>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let elems = document.querySelectorAll('.sidenav');
+                let instances = M.Sidenav.init(elems, {});
+            });
+        </script>
+
+        {% if messages %}
+            {%for message in messages %}
+                {% if message.tags == 'success' %}
+                    <script>M.toast({html: "{{message}}", classes:'green-text rounded', displayLength:2000});</script>
+                {% elif message.tags == 'error'%}
+                    <script>M.toast({html: "{{message}}", classes:'red-text rounded', displayLength:2000});</script>
+                {% endif %}          
+            {% endfor %}
+        {% endif %}
+
     </header>
+
     <main class="container z-depth-3">
         {% block content %}
         {% endblock %}
