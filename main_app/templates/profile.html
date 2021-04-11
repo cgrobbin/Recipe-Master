@@ -1,45 +1,56 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>{{ profile.user.username }}'s Profile</h3>
+<h3 class="center">{{ profile.user.username }}'s Profile</h3>
 
-<div class="row">
-    <div class="card col m4 s12">
-        <div class="card-content">
-            {% if profile.user.first_name %}
-                <h5>{{ profile.user.first_name }}</h5>
-            {% endif %}
-            <img class="profile-pic" src="{{ profile.url }}" alt="profile-pic">
-            <form action="{% url 'update_photo' %}" enctype="multipart/form-data" method="POST">
-                {% csrf_token %}
-                <input type="file" name="profile-photo-file">
-                <br><br>
-                <input type="submit" class="btn" value="Update Photo">
-            </form>
-            <p>Date Joined: {{ profile.user.date_joined|date:"M d Y" }}</p>
-            <p>Email: {{ profile.user.email }}</p>
-            <button data-target="modal2" class="btn modal-trigger">Edit Profile</button>
-        </div>
-    </div>
-    <div class="card col m8 s12">
-        <h4>My Favorites</h4>
-        <div class="row">
-            {% for recipe in recipes %}
-                <div class="card col m6 s12">
-                    <div class="card-image">
-                        <img src="{{ recipe.url }}" alt="recipe pic">
-                        <span class="card-title black-text">{{ recipe.title }}</span>
-                    </div>
-                    <div class="card-content">
-                        <p>Prep Time: {{ recipe.prep_time }}</p>
-                        <p>Cook Time: {{ recipe.cook_time }}</p>
-                        <p>Servings: {{ recipe.servings }}</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="{% url 'detail' recipe.id %}">Full Recipe</a>
-                    </div>
+<div class="profile-page">
+    <div class="row">
+        <div class="col m4 s12">
+            <div class="card z-depth-3">
+                <div class="card-content">
+                    {% if profile.user.first_name %}
+                        <h5 class="center">{{ profile.user.first_name }}</h5>
+                    {% endif %}
+                    <img class="profile-pic" src="{{ profile.url }}" alt="profile-pic">
+                    <form action="{% url 'update_photo' %}" enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        <input type="file" name="profile-photo-file">
+                        <br><br>
+                        <button type="submit" class="btn indigo darken-4"><i class="material-icons">file_upload</i></button>
+                    </form>
+
+                    <hr>
+
+                    <p>Date Joined: {{ profile.user.date_joined|date:"M d Y" }}</p>
+                    <p>Email: {{ profile.user.email }}</p>
+                    <button data-target="modal2" class="btn indigo darken-4 modal-trigger">Update</button>
                 </div>
-            {% endfor %}
+            </div>
+        </div>
+        <div class="col m8 s12">
+            <div class="card z-depth-3">
+                <h4 class="center">My Favorites</h4>
+                <div class="row">
+                    {% for recipe in recipes %}
+                        <div class="col m6 s12">
+                            <div class="card z-depth-3">
+                                <div class="card-image">
+                                    <img src="{{ recipe.url }}" alt="recipe pic">
+                                    <span class="card-title white-text">{{ recipe.title }}</span>
+                                </div>
+                                <div class="card-content">
+                                    <p>Prep Time: {{ recipe.prep_time }}</p>
+                                    <p>Cook Time: {{ recipe.cook_time }}</p>
+                                    <p>Servings: {{ recipe.servings }}</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="{% url 'detail' recipe.id %}">Full Recipe</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -56,7 +67,7 @@
             <input type="text" name="first_name" maxlength="200" id="id_first_name" value="{{ profile.user.first_name }}">
             <label for="id_last_name">Last Name:</label>
             <input type="text" name="last_name" maxlength="200" id="id_last_name" value="{{ profile.user.last_name }}">
-            <input type="submit" class="btn" value="Update Profile">
+            <button type="submit" class="btn indigo darken-4">Save<i class="material-icons">save</i></button>
         </form>
     </div>
 </div>

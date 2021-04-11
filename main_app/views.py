@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from .models import Profile, Recipe, Comment
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
 BUCKET = 'recipemaster-capstone-0119'
@@ -26,8 +27,9 @@ def update_photo(request):
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             profile.url = url
             profile.save()
+            messages.success(request, f"Photo successfully uploaded")
         except:
-            print('An error occurred during upload')
+            messages.error(request, f"There was an error during upload")
     return redirect('profile')
 
 # New Recipe
@@ -44,7 +46,7 @@ def recipe_new(request):
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             img_url = url
         except:
-            print('An error occurred during upload')
+            messages.error(request, f"An error occured with the photo upload. A default has been set")
     else:
         img_url = "https://i.imgur.com/RtCoQclt.jpg"
 
@@ -53,6 +55,7 @@ def recipe_new(request):
         new_recipe.author = request.user
         new_recipe.url = img_url
         new_recipe.save()
+        messages.success(request, f"Recipe Created")
         return redirect('index')
     else:
         return render(request, 'home.html', { 'recipe_form': recipe_form })
@@ -71,7 +74,7 @@ def recipe_photo(request, recipe_id):
             recipe.url = url
             recipe.save()
         except:
-            print('An error occurred during upload')
+            messages.error(request, f"An error occured with the photo upload. Please try again")
     return redirect('detail', recipe_id=recipe_id)
 
 # Home
@@ -95,13 +98,14 @@ def update_profile(request):
     user_form = UserUpdateForm(request.POST or None, instance = request.user)
     if request.POST and user_form.is_valid():
         user_form.save()
+        messages.success(request, f"Profile Updated")
         return redirect('profile')
     else:
+        messages.error(request, f"Profile Update Error")
         return render(request, 'profile.html')
 
 # Signup
 def signup(request):
-    error_message = ''
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -109,11 +113,12 @@ def signup(request):
             profile = Profile(user=user, url='https://i.imgur.com/CMqTyEZs.jpg')
             profile.save()
             login(request, user)
+            messages.success(request, f"Successful Signup")
             return redirect('profile')
         else:
-            error_message = 'Invalid Signup - Try Again'
+            messages.error(request, f"Invalid Signup - Try Again")
     form = SignupForm()
-    context = { 'form': form, 'error_message': error_message }
+    context = { 'form': form}
     return render(request, 'registration/signup.html', context)
 
 # Recipe Index
@@ -126,7 +131,7 @@ def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     comments = Comment.objects.filter(recipe_id=recipe_id)
     favorited = False
-    if request.user:
+    if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         if profile in recipe.users.all():
             favorited = True
@@ -156,8 +161,10 @@ def recipe_edit(request, recipe_id):
     recipe_form = RecipeForm(request.POST or None, instance=recipe)
     if request.POST and recipe_form.is_valid():
         recipe_form.save()
+        messages.success(request, f"Recipe Edited")
         return redirect('detail', recipe_id=recipe_id)
     else:
+        messages.error(request, f"An error occuring duriing save")
         return redirect('detail', recipe_id=recipe_id)
 
 # Delete Recipe
@@ -177,9 +184,10 @@ def comment_new(request, recipe_id):
         new_comment.recipe = recipe
         new_comment.user = profile
         new_comment.save()
+        messages.success(request, f"Comment Posted")
         return redirect('detail', recipe_id=recipe_id)
     else:
-        return redirect('detail', recipe_id=recipe_id)
+        messages.success(request, f"Error in posting comment")
 
 # Edit Comment
 @login_required
@@ -188,9 +196,10 @@ def comment_edit(request, comment_id, recipe_id):
     comment_form = CommentForm(request.POST or None, instance=comment)
     if request.POST and comment_form.is_valid():
         comment_form.save()
+        messages.success(request, f"Comment edited")
         return redirect('detail', recipe_id=recipe_id)
     else:
-        return redirect('detail', recipe_id=recipe_id)
+        messages.error(request, f"Error is editing comment")
 
 # Delete Comment
 @login_required
@@ -204,9 +213,10 @@ def add_favorite(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     profile = Profile.objects.get(user=request.user)
     if profile in recipe.users.all():
-        return redirect('detail', recipe_id=recipe_id)
+        messages.error(request, f"Recipe Already Favorited")
     else:
         recipe.users.add(profile)
+        messages.success(request, f"Recipe Favorited")
         return redirect('detail', recipe_id=recipe_id)
 
 # Remove Recipe from Favorites
@@ -216,6 +226,7 @@ def remove_favorite(request, recipe_id):
     profile = Profile.objects.get(user=request.user)
     if profile in recipe.users.all():
         recipe.users.remove(profile)
+        messages.success(request, f"Recipe Remove from Favorites")
         return redirect('detail', recipe_id=recipe_id)
     else:
-        return redirect('detail', recipe_id=recipe_id)
+        messages.error(request, f"You have not favorited this recipe")
