@@ -32,22 +32,7 @@
                 <h4 class="center">My Favorites</h4>
                 <div class="row">
                     {% for recipe in recipes %}
-                        <div class="col m6 s12">
-                            <div class="card z-depth-3">
-                                <div class="card-image">
-                                    <img src="{{ recipe.url }}" alt="recipe pic">
-                                    <span class="card-title white-text">{{ recipe.title }}</span>
-                                </div>
-                                <div class="card-content">
-                                    <p>Prep Time: {{ recipe.prep_time }}</p>
-                                    <p>Cook Time: {{ recipe.cook_time }}</p>
-                                    <p>Servings: {{ recipe.servings }}</p>
-                                </div>
-                                <div class="card-action">
-                                    <a href="{% url 'detail' recipe.id %}">Full Recipe</a>
-                                </div>
-                            </div>
-                        </div>
+                        {% include './partials/recipecard.html' %}
                     {% endfor %}
                 </div>
             </div>
@@ -55,28 +40,6 @@
     </div>
 </div>
 
-<div class="modal" id="modal2">
-    <div class="modal-content">
-        <form action="{% url 'update_profile' %}" method="POST">
-            {% csrf_token %}
-            <label for="id_username">Username:</label>
-            <input type="text" name="username" id="id_username" value="{{ profile.user.username }}">
-            <label for="id_email">Email:</label>
-            <input type="text" name="email" maxlength="200" id="id_email" value="{{ profile.user.email }}">
-            <label for="id_first_name">First Name:</label>
-            <input type="text" name="first_name" maxlength="200" id="id_first_name" value="{{ profile.user.first_name }}">
-            <label for="id_last_name">Last Name:</label>
-            <input type="text" name="last_name" maxlength="200" id="id_last_name" value="{{ profile.user.last_name }}">
-            <button type="submit" class="btn indigo darken-4">Save<i class="material-icons">save</i></button>
-        </form>
-    </div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let elems = document.querySelectorAll('.modal');
-        let instances = M.Modal.init(elems, {});
-    });
-</script>
+{% include './modals/editprofile.html' %}
 
 {% endblock  %}

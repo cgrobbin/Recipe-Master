@@ -1,0 +1,43 @@
+<div class="card z-depth-3">
+    <div class="row">
+        <div class="comment-pic col m3">
+            <img class="profile-pic" src="{{ comment.user.url }}" alt="profile-pic">
+        </div>
+        <div class="col m6">
+            <h5>{{ comment.user.user.username }}</h5>
+            <p>{{ comment.content }}</p>
+        </div>
+        {% if comment.user.user == request.user %}
+            <div class="col m3">
+                <button data-target="modal-comment-edit-{{ comment.id }}" class="btn indigo darken-4 modal-trigger"><i class="material-icons">edit</i></button>
+                <button data-target="modal-comment-delete-{{ comment.id }}" class="btn indigo darken-4 modal-trigger"><i class="material-icons">delete_forever</i></button>
+
+                {% comment %} MODALS {% endcomment %}
+                <div class="modal" id="modal-comment-edit-{{ comment.id }}">
+                    <div class="modal-content">
+                        <form action="{% url 'comment_edit' recipe.id comment.id %}" method="POST">
+                            {% csrf_token %}
+                            <h5>Edit comment below</h5>
+                            <label for="id_content">Comment:</label>
+                            <input type="text" name="content" required="" id="id_content" value="{{ comment.content }}">
+                            <input type="submit" class="btn indigo darken-4" value="Save">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close"></a>
+                    </div>
+                </div>
+
+                <div class="modal" id="modal-comment-delete-{{ comment.id }}">
+                    <div class="modal-content">
+                        <h5>Are you sure?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="btn indigo darken-4 modal-close">No</a>
+                        <a href="{% url 'comment_delete' recipe.id comment.id %}" class="btn indigo darken-4 modal-close">Yes</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
