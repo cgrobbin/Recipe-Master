@@ -140,4 +140,8 @@ li {
   .brand-logo .material-icons {
     display: none;
   }
+
+  .search .material-icons {
+    display: none;
+  }
 }
